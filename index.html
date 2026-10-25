@@ -9,22 +9,23 @@
 <body>
     <header>
         <h1>SGPA & CGPA Calculator</h1>
-        <p>Calculate your academic performance quickly and easily.</p>
+        <p>Calculate your academic performance quickly and easily.</p><br>
+        <p>Predict your SGPA and CGPA in advance.</p>
     </header>
 
-    <main class="main-container">
+    <main class="main-cont">
         <section>
             <h2>SGPA Calculator</h2>
-            <div class="subject-row">
+            <div class="subj-row">
                 <strong>Subject Name</strong>
                 <strong>Credits</strong>
                 <strong>Grade</strong>
             </div>
 
-            <div id="subject-list">
-                <div class="subject-row">
+            <div id="subj-list">
+                <div class="subj-row">
                     <input type="text" placeholder="Subject 1">
-                    <input class="credits" type="number" min="1" placeholder="Credits">
+                    <input class="creds" type="number" min="1" placeholder="Credits">
                     <select class="grade">
                         <option value="10">O (10)</option>
                         <option value="9">A+ (9)</option>
@@ -37,31 +38,31 @@
                 </div>
             </div>
 
-            <button type="button" id="add-subject">Add Subject</button>
-            <button type="button" id="calculate-sgpa">Calculate SGPA</button>
-            <div class="result" id="sgpa-result">Your SGPA will appear here.</div>
+            <button type="button" id="add-subj">Add Subject</button>
+            <button type="button" id="calc-sgpa">Calculate SGPA</button>
+            <div class="res" id="sgpa-res">Your SGPA will appear here.</div>
             <p class="note">Enter credits for every subject before calculating.</p>
         </section>
 
         <section>
             <h2>CGPA Calculator</h2>
             <p>Enter the SGPA and total credits for each semester.</p>
-            <div id="semester-list">
-                <div class="semester-row">
-                    <input type="number" class="semester-sgpa" min="0" max="10" step="0.01" placeholder="Semester 1 SGPA">
-                    <input type="number" class="semester-credits" min="1" placeholder="Total credits">
+            <div id="sem-list">
+                <div class="sem-row">
+                    <input type="number" class="sem-sgpa" min="0" max="10" step="0.01" placeholder="Semester 1 SGPA">
+                    <input type="number" class="sem-creds" min="1" placeholder="Total credits">
                 </div>
             </div>
 
-            <button type="button" id="add-semester">Add Semester</button>
-            <button type="button" id="calculate-cgpa">Calculate CGPA</button>
-            <div class="result" id="cgpa-result">Your CGPA will appear here.</div>
+            <button type="button" id="add-sem">Add Semester</button>
+            <button type="button" id="calc-cgpa">Calculate CGPA</button>
+            <div class="res" id="cgpa-res">Your CGPA will appear here.</div>
         </section>
     </main>
 
     <footer>
-        <p>Use accurate grades and credits for the best result.</p>
-        <p>&copy; 2026 Dil-e-Delhi. All rights reserved.</p><br>
+        <p>Use accurate grades and credits for the best result.</p><br>
+        <p>&copy; 2026 SGPA/CGPA CALCULATOR. All rights reserved.</p>
         <p>Designed by Zubair Khan</p>
     </footer>
 
