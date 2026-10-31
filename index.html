@@ -3,69 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SGPA & CGPA Calculator</title>
+    <title>Assignment Tracker</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>SGPA & CGPA Calculator</h1>
-        <p>Calculate your academic performance quickly and easily.</p><br>
-        <p>Predict your SGPA and CGPA in advance.</p>
+        <p class="course">Assignment Tracker</p>
+        <h1>Practical Lab & Assignment Tracker</h1>
+        <p>Keep track of your DU semester work in one place.</p><br>
+        <p>Add the assignments you need to complete, and track your progress.<br> 
+            So you can stay organized and never miss a deadline.</p>
     </header>
 
-    <main class="main-cont">
-        <section>
-            <h2>SGPA Calculator</h2>
-            <div class="subj-row">
-                <strong>Subject Name</strong>
-                <strong>Credits</strong>
-                <strong>Grade</strong>
+    <main>
+        <section class="summary">
+            <div>
+                <p>YOUR PROGRESS</p>
+                <h2 id="count">Completed: 0 / 6</h2>
             </div>
-
-            <div id="subj-list">
-                <div class="subj-row">
-                    <input type="text" placeholder="Subject 1">
-                    <input class="creds" type="number" min="1" placeholder="Credits">
-                    <select class="grade">
-                        <option value="10">O (10)</option>
-                        <option value="9">A+ (9)</option>
-                        <option value="8">A (8)</option>
-                        <option value="7">B+ (7)</option>
-                        <option value="6">B (6)</option>
-                        <option value="5">C (5)</option>
-                        <option value="0">F (0)</option>
-                    </select>
-                </div>
-            </div>
-
-            <button type="button" id="add-subj">Add Subject</button>
-            <button type="button" id="calc-sgpa">Calculate SGPA</button>
-            <div class="res" id="sgpa-res">Your SGPA will appear here.</div>
-            <p class="note">Enter credits for every subject before calculating.</p>
+            <div class="progress-box"><span id="bar"></span></div>
         </section>
 
-        <section>
-            <h2>CGPA Calculator</h2>
-            <p>Enter the SGPA and total credits for each semester.</p>
-            <div id="sem-list">
-                <div class="sem-row">
-                    <input type="number" class="sem-sgpa" min="0" max="10" step="0.01" placeholder="Semester 1 SGPA">
-                    <input type="number" class="sem-creds" min="1" placeholder="Total credits">
-                </div>
-            </div>
+        <nav class="filters">
+            <button class="filter active" data-filter="all">All</button>
+            <button class="filter" data-filter="pending">Pending</button>
+            <button class="filter" data-filter="submitted">Submitted</button>
+        </nav>
 
-            <button type="button" id="add-sem">Add Semester</button>
-            <button type="button" id="calc-cgpa">Calculate CGPA</button>
-            <div class="res" id="cgpa-res">Your CGPA will appear here.</div>
+        <form id="add-form">
+            <h2>Add Assignment / Project</h2>
+            <input id="title" type="text" placeholder="Title" required>
+            <input id="subject" type="text" placeholder="Subject" required>
+            <input id="due" type="text" placeholder="Due date" required>
+            <input id="credit" type="number" placeholder="Credit" min="1" required>
+            <input id="description" type="text" placeholder="Short description" required>
+            <button type="submit">Add Item</button>
+        </form>
+
+        <h2 class="note">SAMPLE ASSIGNMENTS:- </h2>
+        <p class="note-p">(ADD AND DELETE ITEMS AS PER YOUR NEEDS)</p>
+
+        <section class="cards">
+            <article class="card" data-status="pending">
+                <span class="tag">Programming Fundamentals</span>
+                <h2>Python Basics Practical</h2>
+                <p>Write simple programs using variables, loops and functions.</p>
+                <div class="details"><span>Due: 08 Nov 2026</span><span>Credit: 2</span></div>
+                <button class="status">Pending</button>
+                <button class="remove">Remove</button>
+            </article>
+            <article class="card" data-status="pending">
+                <span class="tag">Computer System Architecture</span>
+                <h2>Logic Gates Assignment</h2>
+                <p>Prepare truth tables and explain basic digital logic gates.</p>
+                <div class="details"><span>Due: 12 Nov 2026</span><span>Credit: 2</span></div>
+                <button class="status">Pending</button>
+                <button class="remove">Remove</button>
+            </article>
+            <article class="card" data-status="submitted">
+                <span class="tag">Mathematics for Computing</span>
+                <h2>Set Theory Worksheet</h2>
+                <p>Solve the questions on sets, relations and functions.</p>
+                <div class="details"><span>Due: 15 Nov 2026</span><span>Credit: 3</span></div>
+                <button class="status done">Submitted</button>
+                <button class="remove">Remove</button>
+            </article>
+            <article class="card" data-status="pending">
+                <span class="tag">Front End SEC</span>
+                <h2>HTML Portfolio Page</h2>
+                <p>Build a simple personal page using HTML and CSS.</p>
+                <div class="details"><span>Due: 20 Nov 2026</span><span>Credit: 2</span></div>
+                <button class="status">Pending</button>
+                <button class="remove">Remove</button>
+            </article>
+            <article class="card" data-status="pending">
+                <span class="tag">Communication Skills</span>
+                <h2>Presentation Practice</h2>
+                <p>Prepare a short presentation about your favourite topic.</p>
+                <div class="details"><span>Due: 25 Nov 2026</span><span>Credit: 1</span></div>
+                <button class="status">Pending</button>
+                <button class="remove">Remove</button>
+            </article>
+            <article class="card" data-status="pending">
+                <span class="tag">Environmental Science</span>
+                <h2>Green Campus Report</h2>
+                <p>Write a short report on sustainable practices in college.</p>
+                <div class="details"><span>Due: 30 Nov 2026</span><span>Credit: 2</span></div>
+                <button class="status">Pending</button>
+                <button class="remove">Remove</button>
+            </article>
         </section>
     </main>
 
-    <footer>
-        <p>Use accurate grades and credits for the best result.</p><br>
-        <p>&copy; 2026 SGPA/CGPA CALCULATOR. All rights reserved.</p>
-        <p>Designed by Zubair Khan</p>
-    </footer>
-
-<script src="index.js" defer></script>
+    <footer><p>© 2026 Assignments Tracker • Designed by Zubair Khan</p></footer>
+    <script src="index.js" defer></script>
 </body>
 </html>
