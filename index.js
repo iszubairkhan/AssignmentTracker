@@ -1,91 +1,111 @@
-const subjList = document.getElementById("subj-list");
-const semList = document.getElementById("sem-list");
+let cards = document.getElementsByClassName("card");
+let filters = document.getElementsByClassName("filter");
+let currentFilter = "all";
 
-function addSubj() {
-    const num = subjList.children.length + 1;
-    const subj = document.createElement("div");
+function updateProgress() {
+    let completed = 0;
 
-    subj.className = "subj-row";
-    subj.innerHTML =
-        '<input type="text" placeholder="Subject ' + num + '">' +
-        '<input class="creds" type="number" min="1" placeholder="Credits">' +
-        '<select class="grade">' +
-        '<option value="10">O (10)</option>' +
-        '<option value="9">A+ (9)</option>' +
-        '<option value="8">A (8)</option>' +
-        '<option value="7">B+ (7)</option>' +
-        '<option value="6">B (6)</option>' +
-        '<option value="5">C (5)</option>' +
-        '<option value="0">F (0)</option>' +
-        '</select>';
-
-    subjList.appendChild(subj);
-}
-
-function calcSGPA() {
-    const creds = document.getElementsByClassName("creds");
-    const grades = document.getElementsByClassName("grade");
-    let totalCreds = 0;
-    let totalPts = 0;
-
-    for (let i = 0; i < creds.length; i++) {
-        const cred = Number(creds[i].value);
-
-        if (cred > 0) {
-            totalCreds = totalCreds + cred;
-            totalPts = totalPts + cred * Number(grades[i].value);
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i].getAttribute("data-status") === "submitted") {
+            completed++;
         }
     }
 
-    if (totalCreds > 0) {
-        document.getElementById("sgpa-res").textContent =
-            "Your SGPA is " + (totalPts / totalCreds).toFixed(2);
+    document.getElementById("count").textContent =
+        "Completed: " + completed + " / " + cards.length;
+
+    if (cards.length > 0) {
+        document.getElementById("bar").style.width =
+            completed / cards.length * 100 + "%";
     } else {
-        document.getElementById("sgpa-res").textContent =
-            "Please enter at least one valid subject credit.";
+        document.getElementById("bar").style.width = "0%";
     }
 }
 
-function addSem() {
-    const num = semList.children.length + 1;
-    const sem = document.createElement("div");
+function showCards() {
+    for (let i = 0; i < cards.length; i++) {
+        let status = cards[i].getAttribute("data-status");
 
-    sem.className = "sem-row";
-    sem.innerHTML =
-        '<input type="number" class="sem-sgpa" min="0" max="10" step="0.01" placeholder="Semester ' +
-        num +
-        ' SGPA">' +
-        '<input type="number" class="sem-creds" min="1" placeholder="Total credits">';
-
-    semList.appendChild(sem);
-}
-
-function calcCGPA() {
-    const sgpas = document.getElementsByClassName("sem-sgpa");
-    const creds = document.getElementsByClassName("sem-creds");
-    let totalCreds = 0;
-    let totalPts = 0;
-
-    for (let i = 0; i < sgpas.length; i++) {
-        const sgpa = Number(sgpas[i].value);
-        const cred = Number(creds[i].value);
-
-        if (sgpa >= 0 && sgpa <= 10 && cred > 0) {
-            totalCreds = totalCreds + cred;
-            totalPts = totalPts + sgpa * cred;
+        if (currentFilter === "all" || currentFilter === status) {
+            cards[i].style.display = "block";
+        } else {
+            cards[i].style.display = "none";
         }
     }
-
-    if (totalCreds > 0) {
-        document.getElementById("cgpa-res").textContent =
-            "Your CGPA is " + (totalPts / totalCreds).toFixed(2);
-    } else {
-        document.getElementById("cgpa-res").textContent =
-            "Please enter valid SGPA and credit values.";
-    }
 }
 
-document.getElementById("add-subj").onclick = addSubj;
-document.getElementById("calc-sgpa").onclick = calcSGPA;
-document.getElementById("add-sem").onclick = addSem;
-document.getElementById("calc-cgpa").onclick = calcCGPA;
+function addCardEvents(card) {
+    let statusbtn = card.querySelector(".status");
+    let removebtn = card.querySelector(".remove");
+
+    statusbtn.onclick = function () {
+        if (card.getAttribute("data-status") === "submitted") {
+            card.setAttribute("data-status", "pending");
+            statusbtn.textContent = "Pending";
+            statusbtn.classList.remove("done");
+        } else {
+            card.setAttribute("data-status", "submitted");
+            statusbtn.textContent = "Submitted";
+            statusbtn.classList.add("done");
+        }
+
+        updateProgress();
+        showCards();
+    };
+
+    removebtn.onclick = function () {
+        card.remove();
+        cards = document.getElementsByClassName("card");
+        updateProgress();
+        showCards();
+    };
+}
+
+for (let i = 0; i < cards.length; i++) {
+    addCardEvents(cards[i]);
+}
+
+for (let i = 0; i < filters.length; i++) {
+    filters[i].onclick = function () {
+        for (let j = 0; j < filters.length; j++) {
+            filters[j].classList.remove("active");
+        }
+
+        this.classList.add("active");
+        currentFilter = this.getAttribute("data-filter");
+        showCards();
+    };
+}
+
+document.getElementById("add-form").onsubmit = function (event) {
+    event.preventDefault();
+
+    let title = document.getElementById("title").value;
+    let subject = document.getElementById("subject").value;
+    let due = document.getElementById("due").value;
+    let credit = document.getElementById("credit").value;
+    let description = document.getElementById("description").value;
+    let card = document.createElement("article");
+
+    card.className = "card";
+    card.setAttribute("data-status", "pending");
+    card.innerHTML =
+        '<span class="tag">' + subject + '</span>' +
+        '<h2>' + title + '</h2>' +
+        '<p>' + description + '</p>' +
+        '<div class="details">' +
+        '<span>Due: ' + due + '</span>' +
+        '<span>Credit: ' + credit + '</span>' +
+        '</div>' +
+        '<button class="status">Pending</button>' +
+        '<button class="remove">Remove</button>';
+
+    document.querySelector(".cards").appendChild(card);
+    addCardEvents(card);
+    cards = document.getElementsByClassName("card");
+    document.getElementById("add-form").reset();
+    updateProgress();
+    showCards();
+};
+
+updateProgress();
